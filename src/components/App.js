@@ -6,6 +6,7 @@ import { Users } from "../store/actions/users";
 import { Switch, Route } from "react-router-dom";
 import { Login } from "./Login.js";
 import Dashboard from "./Dashboard";
+import NotFound from "./Not_Found";
 
 function App({ users, questions, dispatch }) {
   useState(async () => {
@@ -18,6 +19,7 @@ function App({ users, questions, dispatch }) {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route path="*" component={NotFound} />
       </Switch>
     </div>
   );
