@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { getInitialState } from "./store/actions/shared";
 import { connect } from "react-redux";
-import { Questions } from "./store/actions/questions";
-import { Users } from "./store/actions/users";
+import { Questions } from "../store/actions/questions";
+import { Users } from "../store/actions/users";
+import { Switch, Route } from "react-router-dom";
+import { Login } from "./Login.js";
 
 function App({ users, questions, dispatch }) {
   useState(async () => {
@@ -12,7 +14,9 @@ function App({ users, questions, dispatch }) {
   });
   return (
     <div className="App">
-      <h1>Hello World</h1>
+      <Switch>
+        <Route path="/" component={Login} />
+      </Switch>
     </div>
   );
 }
