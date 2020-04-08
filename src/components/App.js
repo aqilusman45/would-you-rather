@@ -5,6 +5,7 @@ import { Questions } from "../store/actions/questions";
 import { Users } from "../store/actions/users";
 import { Switch, Route } from "react-router-dom";
 import { Login } from "./Login.js";
+import Dashboard from "./Dashboard";
 
 function App({ users, questions, dispatch }) {
   useState(async () => {
@@ -15,7 +16,8 @@ function App({ users, questions, dispatch }) {
   return (
     <div className="App">
       <Switch>
-        <Route path="/" component={Login} />
+        <Route exact path="/" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     </div>
   );
