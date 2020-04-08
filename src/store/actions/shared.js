@@ -1,4 +1,4 @@
-import { _getUsers, _getQuestions } from "../../../utils/_DATA";
+import { _getUsers, _getQuestions } from "../../utils/_DATA";
 
 export async function getInitialState() {
   try {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getInitialState } from "./store/actions/shared";
+import { getInitialState } from "../store/actions/shared";
 import { connect } from "react-redux";
 import { Questions } from "../store/actions/questions";
 import { Users } from "../store/actions/users";
