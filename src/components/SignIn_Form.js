@@ -5,7 +5,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { UserAvatars } from "./Avatar";
+import UserAvatars from "./Avatar";
 import { connect } from "react-redux";
 import { Alerts } from "../store/actions/alerts";
 import { AuthedUser } from "../store/actions/authedUser";
@@ -53,7 +53,7 @@ const SignInFrom = ({ users, dispatch, history }) => {
 
   return (
     <div className={classes.paper}>
-      <UserAvatars img={user.avatarURL} />
+      <UserAvatars signInAvatar={user.avatarURL} size="large" />
       <form className={classes.form} onSubmit={formSubmit}>
         <FormControl className={classes.formControl}>
           <InputLabel id="user-select">Select User</InputLabel>
