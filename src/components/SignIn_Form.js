@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import { UserAvatars } from "./Avatar";
 import { connect } from "react-redux";
 import { Alerts } from "../store/actions/alerts";
+import { AuthedUser } from "../store/actions/authedUser";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInFrom = ({ users, dispatch }) => {
+const SignInFrom = ({ users, dispatch, history }) => {
   const [user, setUser] = useState({});
   const classes = useStyles();
 
@@ -42,6 +45,9 @@ const SignInFrom = ({ users, dispatch }) => {
     e.preventDefault();
     if (user.id === undefined) {
       dispatch(Alerts.handleAlerts("Please select user to continue."));
+    } else {
+      dispatch(AuthedUser.handleAuthedUserSetup(user));
+      history.push("/dashboard");
     }
   };
 
@@ -79,10 +85,16 @@ const SignInFrom = ({ users, dispatch }) => {
   );
 };
 
+SignInFrom.prototype = {
+  users: PropTypes.object,
+  dispatch: PropTypes.func,
+  history: PropTypes.object,
+};
+
 const mapStateToProps = ({ users }) => {
   return {
     users: Object.values(users),
   };
 };
 
-export default connect(mapStateToProps)(SignInFrom);
+export default connect(mapStateToProps)(withRouter(SignInFrom));
