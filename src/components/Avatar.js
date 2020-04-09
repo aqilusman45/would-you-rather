@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import placeholder from "../assets/placeholder.png";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,17 +17,20 @@ const useStyles = makeStyles((theme) => ({
     width: "150px",
     height: "150px",
   },
+  avatarText: {
+    margin: "auto",
+  },
 }));
 
-const UserAvatars = ({ img }) => {
+const UserAvatars = ({ signInAvatar, size, userImage, userName }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      <p className={classes.avatarText}>{userName}</p>
       <Avatar
-        alt="Remy Sharp"
-        src={img || placeholder}
-        className={classes.large}
+        src={signInAvatar || userImage || placeholder}
+        className={classes[size]}
       />
     </div>
   );
@@ -34,4 +39,8 @@ UserAvatars.prototype = {
   img: PropTypes.string,
 };
 
-export default UserAvatars;
+const mapStateToProps = ({ authedUser }) => ({
+  userImage: authedUser?.avatarURL,
+  userName: authedUser?.name,
+});
+export default connect(mapStateToProps)(withRouter(UserAvatars));
