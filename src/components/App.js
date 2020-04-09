@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App({ users, questions, dispatch, alerts }) {
+function App({ users, questions, dispatch, alerts, authedUser }) {
   const classes = useStyles();
   useState(async () => {
     if (localStorage.getItem("authedUser") !== null) {
@@ -35,6 +35,7 @@ function App({ users, questions, dispatch, alerts }) {
     dispatch(Questions.setQuestions(questions));
     dispatch(Users.setUsers(users));
   }, []);
+
   return (
     <div className="App">
       <Switch>
@@ -56,10 +57,11 @@ App.prototype = {
   alert: PropTypes.object,
 };
 
-const mapStateToProps = ({ users, questions, alerts }) => ({
+const mapStateToProps = ({ users, questions, alerts, authedUser }) => ({
   users,
   questions,
   alerts,
+  authedUser,
 });
 
 export default connect(mapStateToProps)(withAuthentication(App));
