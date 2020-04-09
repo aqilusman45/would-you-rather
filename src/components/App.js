@@ -7,8 +7,21 @@ import { Switch, Route } from "react-router-dom";
 import { Login } from "./Login.js";
 import Dashboard from "./Dashboard";
 import NotFound from "./Not_Found";
+import Alert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
 
-function App({ users, questions, dispatch }) {
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    width: "400px",
+    margin: "10px auto",
+    position: "absolute",
+    left: "36.8%",
+    bottom: "5%",
+  },
+}));
+
+function App({ users, questions, dispatch, alerts }) {
+  const classes = useStyles();
   useState(async () => {
     const [users, questions] = await getInitialState();
     dispatch(Questions.setQuestions(questions));
@@ -21,13 +34,17 @@ function App({ users, questions, dispatch }) {
         <Route exact path="/dashboard" component={Dashboard} />
         <Route path="*" component={NotFound} />
       </Switch>
+      <div className={classes.alert}>
+        {alerts.msg && <Alert severity="error">{alerts.msg}</Alert>}
+      </div>
     </div>
   );
 }
 
-const mapStateToProps = ({ users, questions }) => ({
+const mapStateToProps = ({ users, questions, alerts }) => ({
   users,
   questions,
+  alerts,
 });
 
 export default connect(mapStateToProps)(App);

@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { UserAvatars } from "./Avatar";
 import { connect } from "react-redux";
+import { Alerts } from "../store/actions/alerts";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInFrom = ({ users }) => {
+const SignInFrom = ({ users, dispatch }) => {
   const [user, setUser] = useState({});
   const classes = useStyles();
 
@@ -37,13 +38,21 @@ const SignInFrom = ({ users }) => {
     setUser(users.find((user) => user.id === e.target.value));
   };
 
+  const formSubmit = (e) => {
+    e.preventDefault();
+    if (user.id === undefined) {
+      dispatch(Alerts.handleAlerts("Please select user to continue."));
+    }
+  };
+
   return (
     <div className={classes.paper}>
       <UserAvatars img={user.avatarURL} />
-      <form className={classes.form} noValidate>
+      <form className={classes.form} onSubmit={formSubmit}>
         <FormControl className={classes.formControl}>
           <InputLabel id="user-select">Select User</InputLabel>
           <Select
+            required
             onChange={selectUser}
             value={user.id || ""}
             labelId="user-select"
