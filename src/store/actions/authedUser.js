@@ -4,4 +4,11 @@ export class AuthedUser {
     type: AuthedUser.AUTHED_USER,
     authedUser,
   });
+
+  static handleAuthedUserSetup = (authedUser) => {
+    return (dispatch) => {
+      localStorage.setItem("authedUser", JSON.stringify(authedUser));
+      dispatch(AuthedUser.setAuthedUser(authedUser));
+    };
+  };
 }

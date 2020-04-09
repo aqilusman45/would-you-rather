@@ -9,6 +9,9 @@ import Dashboard from "./Dashboard";
 import NotFound from "./Not_Found";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
+import withAuthentication from "../utils/authentication";
+import { AuthedUser } from "../store/actions/authedUser";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -23,10 +26,15 @@ const useStyles = makeStyles((theme) => ({
 function App({ users, questions, dispatch, alerts }) {
   const classes = useStyles();
   useState(async () => {
+    if (localStorage.getItem("authedUser") !== null) {
+      dispatch(
+        AuthedUser.setAuthedUser(JSON.parse(localStorage.getItem("authedUser")))
+      );
+    }
     const [users, questions] = await getInitialState();
     dispatch(Questions.setQuestions(questions));
     dispatch(Users.setUsers(users));
-  });
+  }, []);
   return (
     <div className="App">
       <Switch>
@@ -41,10 +49,17 @@ function App({ users, questions, dispatch, alerts }) {
   );
 }
 
+App.prototype = {
+  users: PropTypes.object,
+  questions: PropTypes.object,
+  dispatch: PropTypes.func,
+  alert: PropTypes.object,
+};
+
 const mapStateToProps = ({ users, questions, alerts }) => ({
   users,
   questions,
   alerts,
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(withAuthentication(App));
