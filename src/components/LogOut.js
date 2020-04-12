@@ -1,43 +1,52 @@
 import React, { useState } from "react";
-import Tab from "@material-ui/core/Tab";
 import Popover from "@material-ui/core/Popover";
-import Button from "@material-ui/core/Button";
 import UserAvatars from "./Avatar";
 import { connect } from "react-redux";
 import { AuthedUser } from "../store/actions/authedUser";
 import { withRouter } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+
+const useStyles = makeStyles(() => ({
+  avatarContainer: {
+    padding: "21px 27px",
+  },
+  popup: {
+    background: "lightgray",
+    padding: "16px 70px",
+    cursor: "pointer",
+  },
+}));
 
 const LogOut = ({ dispatch }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [visible, setVisibility] = useState(null);
+  const logOut = () => {
+    dispatch(AuthedUser.handleLogOut());
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setVisibility(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-
-  const logOut = () => {
-    dispatch(AuthedUser.logOutUser());
+  const handleClick = (event) => {
+    setVisibility(event.currentTarget);
   };
+
+  const open = Boolean(visible);
+
+  const id = visible ? "simple-popover" : undefined;
+
+  const classes = useStyles();
+
   return (
-    <div>
-      <Button
-        aria-describedby={id}
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-      >
-        <UserAvatars />
-      </Button>
+    <div className={classes.avatarContainer} onClick={handleClick}>
+      <UserAvatars />
       <Popover
         id={id}
         open={open}
-        anchorEl={anchorEl}
+        onBlur={handleClose}
+        anchorEl={visible}
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
@@ -48,10 +57,16 @@ const LogOut = ({ dispatch }) => {
           horizontal: "center",
         }}
       >
-        <Tab onClick={logOut} label="Log out" />
+        <div className={classes.popup} onClick={logOut}>
+          <Typography variant="h6">Log out</Typography>
+        </div>
       </Popover>
     </div>
   );
+};
+
+LogOut.prototype = {
+  dispatch: PropTypes.string,
 };
 
 export default connect()(withRouter(LogOut));
