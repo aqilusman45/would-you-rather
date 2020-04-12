@@ -1,3 +1,38 @@
 body{
     margin: 0;
 }
+
+
+* {
+    font-family: sans-serif;
+}
+
+.questions-pills-container{
+    width: 50%;
+    display: inline-block;
+}
+
+
+.questions-pills-container > button{
+    width: 100%;
+    padding: 25px;
+    border: none;
+    font-size: 20px;
+    background: #3f51b5;
+    text-transform: capitalize;
+    color: white;
+
+}
+
+.questions-pills-container > button:hover{
+    background-color: #303f9f;
+    cursor: pointer;
+}
+.questions-pills-container > button:disabled{
+    background-color: #303f9fc7;
+    cursor: not-allowed;
+}
+
+.questions-section{
+    margin-top: 25px;
+}
