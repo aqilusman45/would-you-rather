@@ -11,6 +11,12 @@ export class AuthedUser {
     authedUser: null,
   });
 
+  static handleLogOut = () => {
+    return (dispatch) => {
+      dispatch(AuthedUser.logOutUser());
+      localStorage.removeItem("authedUser");
+    };
+  };
   static handleAuthedUserSetup = (authedUser) => {
     return (dispatch) => {
       localStorage.setItem("authedUser", JSON.stringify(authedUser));
