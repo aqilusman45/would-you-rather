@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App({ users, questions, dispatch, alerts, authedUser }) {
+function App({ dispatch, alerts }) {
   const classes = useStyles();
   useState(async () => {
     if (localStorage.getItem("authedUser") !== null) {
@@ -40,7 +40,7 @@ function App({ users, questions, dispatch, alerts, authedUser }) {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route path="/dashboard" component={Dashboard} />
         <Route path="*" component={NotFound} />
       </Switch>
       <div className={classes.alert}>
@@ -51,17 +51,12 @@ function App({ users, questions, dispatch, alerts, authedUser }) {
 }
 
 App.prototype = {
-  users: PropTypes.object,
-  questions: PropTypes.object,
   dispatch: PropTypes.func,
   alert: PropTypes.object,
 };
 
-const mapStateToProps = ({ users, questions, alerts, authedUser }) => ({
-  users,
-  questions,
+const mapStateToProps = ({ alerts }) => ({
   alerts,
-  authedUser,
 });
 
 export default connect(mapStateToProps)(withAuthentication(App));
