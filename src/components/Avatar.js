@@ -5,12 +5,13 @@ import placeholder from "../assets/placeholder.png";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     "& > *": {
-      margin: theme.spacing(1),
+      margin: "0 8px",
     },
   },
   large: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarText: {
     margin: "auto",
+    color: "white",
   },
 }));
 
@@ -27,7 +29,9 @@ const UserAvatars = ({ signInAvatar, size, userImage, userName }) => {
 
   return (
     <div className={classes.root}>
-      <p className={classes.avatarText}>{userName}</p>
+      {userName !== "none" ? (
+        <Typography className={classes.avatarText}>{userName}</Typography>
+      ) : null}
       <Avatar
         src={signInAvatar || userImage || placeholder}
         className={classes[size]}
@@ -37,10 +41,14 @@ const UserAvatars = ({ signInAvatar, size, userImage, userName }) => {
 };
 UserAvatars.prototype = {
   img: PropTypes.string,
+  signInAvatar: PropTypes.string,
+  size: PropTypes.string,
+  userImage: PropTypes.string,
+  userName: PropTypes.string,
 };
 
-const mapStateToProps = ({ authedUser }) => ({
-  userImage: authedUser?.avatarURL,
-  userName: authedUser?.name,
+const mapStateToProps = ({ authedUser }, { userImage, userName }) => ({
+  userImage: userImage || authedUser?.avatarURL,
+  userName: userName || authedUser?.name,
 });
 export default connect(mapStateToProps)(withRouter(UserAvatars));
