@@ -6,25 +6,29 @@ import { Link } from "react-router-dom";
 
 const QuestionsListItem = ({ question, authedUser }) => {
   return (
-    <li key={question.id}>
+    <li className="questions-list-item" key={question.id}>
       <div>
-        <h5>{question.author.name} asks:</h5>
-        <div>
-          <div>
+        <div className="question-heading">
+          <h5>{question.author.name} asks:</h5>
+        </div>
+        <div className="question-content-container">
+          <div className="author-avatar">
             <Avatar
               size="large"
               userName="none"
               userImage={question.author.avatarURL}
             />
           </div>
-          <div>
-            <h4>Would You Rather ...</h4>
-          </div>
-          <div>
-            <p> {question.optionOne.text}</p>
-          </div>
-          <div>
-            <Link to={question.id}>View Poll</Link>
+          <div className="question-text-container">
+            <div>
+              <h4>Would You Rather ...</h4>
+            </div>
+            <div>
+              <p> ...{question.optionOne.text.slice(0, 20)}...</p>
+            </div>
+            <Link className="view-poll" to={`questions/${question.id}`}>
+              <p>View Poll</p>
+            </Link>
           </div>
         </div>
       </div>
