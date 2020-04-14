@@ -1,6 +1,6 @@
 import { _getUsers, _getQuestions } from "../../utils/_DATA";
 
-export async function getInitialState() {
+export async function getStateFromDB() {
   try {
     return await Promise.all([_getUsers(), _getQuestions()]);
   } catch (error) {
