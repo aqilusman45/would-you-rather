@@ -5,14 +5,16 @@ import PropTypes from "prop-types";
 
 const withAuthentication = (Component) => {
   const WithAuthentication = (props) => {
-    const { history, authedUser } = props;
+    const { history, authedUser, location } = props;
+
     useEffect(() => {
-      if (authedUser === null) {
+      if (authedUser === null && localStorage.getItem("authedUser") === null) {
         history.push("/");
-      } else {
-        history.push("/dashboard");
+      } else if (location.pathname === "/") {
+        history.push("/questions");
       }
-    }, [authedUser, history]);
+    }, [authedUser, history, location.pathname]);
+
     return <Component {...props} />;
   };
   WithAuthentication.prototype = {
