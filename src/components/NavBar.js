@@ -1,9 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import LogOut from "./Logout";
-import { withRouter, useRouteMatch, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   navBar: {
     justifyContent: "center",
@@ -51,24 +53,21 @@ const useStyles = makeStyles((theme) => ({
 
 const NAV_LINKS = [
   {
-    link: "",
-    text: "Dashboard",
+    link: "questions",
+    text: "Home",
   },
   {
-    link: "/new-question",
+    link: "add",
     text: "New Question",
   },
   {
-    link: "/leaderboard",
+    link: "leaderboard",
     text: "Leaderboard",
   },
 ];
 
-const NavBar = ({ location }) => {
+const NavBar = ({ authedUser }) => {
   const classes = useStyles();
-  const { url } = useRouteMatch();
-  console.log(url);
-
   return (
     <div className={classes.navBar}>
       <div>
@@ -78,7 +77,7 @@ const NavBar = ({ location }) => {
               <Link
                 key={route.text}
                 className={classes.liLinke}
-                to={`${url}${route.link}`}
+                to={`/${route.link}`}
               >
                 <li className={classes.li}>
                   <div className={classes.textContainer}>
@@ -89,9 +88,11 @@ const NavBar = ({ location }) => {
                 </li>
               </Link>
             ))}
-            <li className={classes.logOut}>
-              <LogOut />
-            </li>
+            {authedUser && (
+              <li className={classes.logOut}>
+                <LogOut />
+              </li>
+            )}
           </ul>
         </nav>
       </div>
@@ -100,7 +101,11 @@ const NavBar = ({ location }) => {
 };
 
 NavBar.prototype = {
-  location: PropTypes.string,
+  authedUser: PropTypes.object,
 };
 
-export default withRouter(NavBar);
+const mapStateToProps = ({ authedUser }) => ({
+  authedUser,
+});
+
+export default connect(mapStateToProps)(withRouter(NavBar));
