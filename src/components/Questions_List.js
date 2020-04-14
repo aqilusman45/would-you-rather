@@ -5,12 +5,18 @@ import QuestionsListItem from "./Questions_List_Item";
 
 const QuestionsList = ({ questionsList }) => {
   return (
-    <div id="unanswered">
-      <ul>
-        {questionsList.map((question) => (
-          <QuestionsListItem key={question.id} question={question} />
-        ))}
-      </ul>
+    <div id="questions">
+      {questionsList.length === 0 ? (
+        <h1 style={{ fontWeight: "200px" }} className="loading-text">
+          Congratulations! You have answered all questions.
+        </h1>
+      ) : (
+        <ul className="questions-list">
+          {questionsList.map((question) => (
+            <QuestionsListItem key={question.id} question={question} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
@@ -22,22 +28,14 @@ QuestionsList.prototype = {
 const mapStateToProps = ({ questions, users }, { questionsToShow }) => {
   const questionsList = questionsToShow
     .map((id) => {
-      const getQuestion = Object.values(questions).find(
-        (question) => question.id === id
-      );
-
-      const getAuthorDetails = Object.values(users).find(
-        (user) => getQuestion.author === user.id
-      );
-
       return {
-        ...getQuestion,
+        ...questions[id],
         author: {
-          ...getAuthorDetails,
+          ...users[questions[id].author],
         },
       };
     })
-    .sort((a, b) => a.timestamp - b.timestamp);
+    .sort((a, b) => b.timestamp - a.timestamp);
   return {
     questionsList,
   };
