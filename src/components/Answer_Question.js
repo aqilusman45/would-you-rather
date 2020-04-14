@@ -4,64 +4,73 @@ import PropTypes from "prop-types";
 import { Questions } from "../store/actions/questions";
 import { connect } from "react-redux";
 
-const UnAnsweredListItem = ({ question, authedUser }) => {
+const AnswerQuestion = ({ question, authedUser, dispatch }) => {
   const handlePollSubmit = (e) => {
     e.preventDefault();
     e.persist();
 
     const option = e.target.elements.option.value;
-    console.log("www", option, authedUser.id, question.id);
 
-    Questions.answerQuestion({
-      answer: option,
-      authedUser: authedUser.id,
-      qid: question.id,
-    });
+    dispatch(
+      Questions.answerQuestion({
+        answer: option,
+        authedUser: authedUser.id,
+        qid: question.id,
+      })
+    );
   };
 
   return (
     <div key={question.id}>
-      <div>
-        <h5>{question.author.name} asks:</h5>
-        <div>
-          <div>
-            <Avatar
-              size="large"
-              userName="none"
-              userImage={question.author.avatarURL}
-            />
+      <div className="answered-question-container">
+        <div className="top-margin">
+          <div className="question-heading">
+            <h5>{question.author.name} asks:</h5>
           </div>
-          <div>
-            <h4>Would You Rather ...</h4>
-          </div>
-          <div>
-            <form onSubmit={handlePollSubmit}>
+          <div className="question-content-container">
+            <div className="author-avatar">
+              <Avatar
+                size="large"
+                userName="none"
+                userImage={question.author.avatarURL}
+              />
+            </div>
+            <div className="question-text-container">
               <div>
-                <label>
-                  {question.optionOne.text}
-                  <input
-                    required
-                    name="option"
-                    type="radio"
-                    value="optionOne"
-                  />
-                </label>
+                <h4>Would you rather...</h4>
               </div>
               <div>
-                <label>
-                  {question.optionTwo.text}
-                  <input
-                    required
-                    name="option"
-                    type="radio"
-                    value="optionTwo"
-                  />
-                </label>
+                <form onSubmit={handlePollSubmit}>
+                  <div className="label-container">
+                    <label>
+                      <input
+                        required
+                        name="option"
+                        type="radio"
+                        value="optionOne"
+                      />
+                      {question.optionOne.text}
+                    </label>
+                  </div>
+                  <div className="label-container">
+                    <label>
+                      <input
+                        required
+                        name="option"
+                        type="radio"
+                        value="optionTwo"
+                      />
+                      {question.optionTwo.text}
+                    </label>
+                  </div>
+                  <div className="button-container">
+                    <button className="answer-submit-button" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div>
-                <button type="submit">Submit</button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -69,11 +78,8 @@ const UnAnsweredListItem = ({ question, authedUser }) => {
   );
 };
 
-UnAnsweredListItem.prototype = {
+AnswerQuestion.prototype = {
   question: PropTypes.object,
 };
 
-const mapStateToProps = ({ authedUser }) => ({
-  authedUser,
-});
-export default connect(mapStateToProps)(UnAnsweredListItem);
+export default connect()(AnswerQuestion);
