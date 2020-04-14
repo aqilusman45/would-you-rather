@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { sortAnsweredUnanswered } from "../utils/sortQuestions";
+import { sortAnsweredUnanswered } from "../utils/handleQuestions";
 import PropTypes from "prop-types";
 import QuestionsList from "./Questions_List";
 
-const Questions = ({ answered, unAnswered }) => {
+const Questions = ({ answered, unAnswered, loading }) => {
   const [showUnAnswered, setShowUnanswered] = useState(true);
 
   const enableshowAnswered = () => setShowUnanswered(false);
 
   const enableUnAnswered = () => setShowUnanswered(true);
+
+  if (loading) {
+    return <h1 className="loading-text">Loading</h1>;
+  }
 
   return (
     <div className="questions-section">
@@ -39,9 +43,10 @@ const Questions = ({ answered, unAnswered }) => {
 Questions.prototype = {
   answered: PropTypes.array,
   unAnswered: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
-const mapStateToProps = ({ questions, authedUser }) => {
+const mapStateToProps = ({ questions, authedUser, loading }) => {
   const [answered, unAnswered] = sortAnsweredUnanswered(
     Object.values(questions),
     authedUser?.id
@@ -49,6 +54,7 @@ const mapStateToProps = ({ questions, authedUser }) => {
   return {
     answered,
     unAnswered,
+    loading,
   };
 };
 
