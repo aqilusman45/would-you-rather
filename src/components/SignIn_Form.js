@@ -47,7 +47,7 @@ const SignInFrom = ({ users, dispatch, history }) => {
       dispatch(Alerts.handleAlerts("Please select user to continue."));
     } else {
       dispatch(AuthedUser.handleAuthedUserSetup(user));
-      history.push("/dashboard");
+      history.push("/");
     }
   };
 
