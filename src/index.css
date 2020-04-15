@@ -162,6 +162,7 @@ div.question-content-container {
     color: white;
     background: #3f51b5;
     border: none;
+    cursor: pointer;
 }
 
 .button-container{
