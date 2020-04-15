@@ -1,9 +1,21 @@
 import React from "react";
 import Avatar from "./Avatar";
+import FontAwesome from "react-fontawesome";
+
+function trophyColor(position) {
+  switch (position) {
+    case 1:
+      return "#FFD700";
+    case 2:
+      return "#cd7f32";
+    case 3:
+      return "#C0C0C0";
+    default:
+      return "#000000";
+  }
+}
 
 export const LeadersListItem = ({ user }) => {
-  console.log("user", user);
-
   return (
     <li>
       <div key={user.id}>
@@ -11,6 +23,12 @@ export const LeadersListItem = ({ user }) => {
           <div className="top-margin">
             <div className="question-content-container">
               <div className="author-avatar">
+                <FontAwesome
+                  className="trophy-icon"
+                  name="trophy"
+                  size="2x"
+                  style={{ color: trophyColor(user.position) }}
+                />
                 <Avatar
                   size="large"
                   userName="none"
@@ -23,13 +41,13 @@ export const LeadersListItem = ({ user }) => {
                 </div>
                 <div>
                   <p>
-                    Answered Questions{" "}
+                    Answered Questions:{" "}
                     <strong>{Object.keys(user.answers).length}</strong>
                   </p>
                 </div>
                 <div>
                   <p>
-                    Created Questions <strong>{user.questions.length}</strong>
+                    Created Questions: <strong>{user.questions.length}</strong>
                   </p>
                 </div>
               </div>

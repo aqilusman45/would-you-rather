@@ -210,3 +210,15 @@ div.question-content-container {
     margin: 0;
     padding-top: 18px;
 }
+
+.trophy-icon {
+    position: absolute;
+    text-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px;
+    font-size: 35px;
+    z-index: 99999;
+    background: #303f9f;
+    color: gold;
+    padding: 10px;
+    border-radius: 100%;
+    margin: -10px;
+}

@@ -27,12 +27,13 @@ const mapStateToProps = ({ users, loading }) => {
 
   if (!loading) {
     leaders = Object.values(users)
-      .map((user) => {
+      .map((user, index) => {
         let totalScore =
           Object.keys(user.answers).length + user.questions.length;
         return {
           ...user,
           totalScore,
+          position: index + 1,
         };
       })
       .sort((a, b) => b.totalScore - a.totalScore);
