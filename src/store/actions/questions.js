@@ -1,6 +1,7 @@
 import { _saveQuestionAnswer, _saveQuestion } from "../../utils/_DATA";
 import { getStateFromDB } from "./shared";
 import { Users } from "./users";
+import { Alerts } from "./alerts";
 export class Questions {
   static SET_QUESTIONS = "SET_QUESTIONS";
   static ANSWER_QUESTION = "ANSWER_QUESTION";
@@ -22,20 +23,24 @@ export class Questions {
   });
 
   static saveQuestion = ({ author, optionOneText, optionTwoText }, cb) => {
-    return async (dispatch) => {
-      try {
-        const result = await _saveQuestion({
-          author,
-          optionOneText,
-          optionTwoText,
+    return (dispatch) => {
+      _saveQuestion({
+        author,
+        optionOneText,
+        optionTwoText,
+      })
+        .then((res) => {
+          cb();
+          getStateFromDB().then(([users, questions]) => {
+            dispatch(Questions.setQuestions(questions));
+            dispatch(Users.setUsers(users));
+          });
+        })
+        .catch(() => {
+          dispatch(
+            Alerts.handleAlerts("Unable to add question, please try again.")
+          );
         });
-        console.log(result);
-
-        dispatch(Questions.addQuestion(result));
-        cb();
-      } catch (error) {
-        console.log(error);
-      }
     };
   };
 
@@ -47,7 +52,9 @@ export class Questions {
         dispatch(Questions.setQuestions(questions));
         dispatch(Users.setUsers(users));
       } catch (error) {
-        console.log(error);
+        dispatch(
+          Alerts.handleAlerts("Unable to add question, please try again.")
+        );
       }
     };
   };
