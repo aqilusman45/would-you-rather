@@ -10,8 +10,8 @@ const LeaderBoard = ({ leaders, loading }) => {
   return (
     <div>
       <ul className="leaders-list">
-        {leaders.map((leader) => (
-          <LeadersListItem key={leader.id} user={leader} />
+        {leaders.map((leader, index) => (
+          <LeadersListItem key={leader.id} user={leader} position={index + 1} />
         ))}
       </ul>
     </div>
@@ -33,7 +33,6 @@ const mapStateToProps = ({ users, loading }) => {
         return {
           ...user,
           totalScore,
-          position: index + 1,
         };
       })
       .sort((a, b) => b.totalScore - a.totalScore);

@@ -1,6 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 import FontAwesome from "react-fontawesome";
+import PropTypes from "prop-types";
 
 function trophyColor(position) {
   switch (position) {
@@ -15,7 +16,7 @@ function trophyColor(position) {
   }
 }
 
-export const LeadersListItem = ({ user }) => {
+export const LeadersListItem = ({ user, position }) => {
   return (
     <li>
       <div key={user.id}>
@@ -27,7 +28,7 @@ export const LeadersListItem = ({ user }) => {
                   className="trophy-icon"
                   name="trophy"
                   size="2x"
-                  style={{ color: trophyColor(user.position) }}
+                  style={{ color: trophyColor(position) }}
                 />
                 <Avatar
                   size="large"
@@ -63,4 +64,9 @@ export const LeadersListItem = ({ user }) => {
       </div>
     </li>
   );
+};
+
+LeadersListItem.prototype = {
+  user: PropTypes.object,
+  position: PropTypes.number,
 };
