@@ -8,9 +8,9 @@ function trophyColor(position) {
     case 1:
       return "#FFD700";
     case 2:
-      return "#cd7f32";
-    case 3:
       return "#C0C0C0";
+    case 3:
+      return "#cd7f32";
     default:
       return "#000000";
   }
@@ -25,6 +25,7 @@ export const LeadersListItem = ({ user, position }) => {
             <div className="question-content-container">
               <div className="author-avatar">
                 <FontAwesome
+                  id={position}
                   className="trophy-icon"
                   name="trophy"
                   size="2x"
