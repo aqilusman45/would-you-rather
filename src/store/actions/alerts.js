@@ -17,7 +17,7 @@ export class Alerts {
       dispatch(Alerts.setAlert(msg));
       setTimeout(() => {
         dispatch(Alerts.clearAlert());
-      }, 2000);
+      }, 3000);
     };
   };
 }
