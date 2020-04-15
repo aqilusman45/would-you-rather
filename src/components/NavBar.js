@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import LogOut from "./Logout";
+import LogOut from "./Log_out";
 import { withRouter, Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";

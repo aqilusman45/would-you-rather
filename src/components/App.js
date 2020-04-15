@@ -3,7 +3,7 @@ import { getStateFromDB } from "../store/actions/shared";
 import { connect } from "react-redux";
 import { Loading } from "../store/actions/loading";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
-import { Login } from "./Login.js";
+import { Login } from "./Log_in";
 import NotFound from "./Not_Found";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
