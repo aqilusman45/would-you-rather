@@ -15,14 +15,13 @@ import ViewQuestion from "./View_Question";
 import LeaderBoard from "./Leaderboard";
 import Questions from "./Questions";
 import NavBar from "./NavBar";
+import { Alerts } from "../store/actions/alerts";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
+    height: "40px",
     width: "400px",
     margin: "10px auto",
-    position: "absolute",
-    left: "36.8%",
-    bottom: "5%",
   },
 }));
 
@@ -43,8 +42,14 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
             )
           );
         }
-        const [users, questions] = await getStateFromDB();
-        dispatch(Loading.dataReceived(users, questions));
+        try {
+          const [users, questions] = await getStateFromDB();
+          dispatch(Loading.dataReceived(users, questions));
+        } catch (error) {
+          dispatch(
+            Alerts.handleAlerts("Something went wrong, please try again.")
+          );
+        }
       };
       getData();
     }
@@ -55,6 +60,9 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
     <div className="App">
       <NavBar />
       <div className="dashboard">
+        <div className={classes.alert}>
+          {alerts.msg && <Alert severity="error">{alerts.msg}</Alert>}
+        </div>
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path={"/questions"} component={Questions} />
@@ -67,9 +75,6 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
           />
           <Route path="*" component={NotFound} />
         </Switch>
-      </div>
-      <div className={classes.alert}>
-        {alerts.msg && <Alert severity="error">{alerts.msg}</Alert>}
       </div>
     </div>
   );
