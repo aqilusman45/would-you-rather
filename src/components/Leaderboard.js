@@ -9,6 +9,7 @@ const LeaderBoard = ({ leaders, loading }) => {
 
   return (
     <div>
+      <h1 className="loading-text">Leader Board</h1>
       <ul className="leaders-list">
         {leaders.map((leader, index) => (
           <LeadersListItem key={leader.id} user={leader} position={index + 1} />
