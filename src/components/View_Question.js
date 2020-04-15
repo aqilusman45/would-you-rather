@@ -9,15 +9,8 @@ import AnsweredQuestions from "./Answered_Question";
 const ViewQuestion = ({ authedUser, question, status, loading }) => {
   const { push } = useHistory();
   useEffect(() => {
-    console.log(
-      "state",
-      loading,
-      question,
-      typeof question === "undefined" && loading
-    );
-
-    if (typeof question === "undefined" && !loading) {
-      push("/questions");
+    if (typeof question === "undefined" && loading) {
+      push("/not-found");
     }
   }, [question, push, loading]);
 
