@@ -5,14 +5,19 @@ import { questionStatus } from "../utils/handleQuestions";
 import PropTypes from "prop-types";
 import AnswerQuestion from "./Answer_Question";
 import AnsweredQuestions from "./Answered_Question";
+import { AuthedUser } from "../store/actions/authedUser";
+import { Alerts } from "../store/actions/alerts";
+import { Routes } from "../store/actions/route";
 
-const ViewQuestion = ({ authedUser, question, status, loading }) => {
+const ViewQuestion = ({ authedUser, question, status, loading, dispatch }) => {
   const { push } = useHistory();
   useEffect(() => {
-    if (typeof question === "undefined" && loading) {
-      push("/not-found");
+    if (!loading && typeof question === "undefined") {
+      dispatch(AuthedUser.handleLogOut());
+      dispatch(Alerts.handleAlerts("Please log in to continue.", 3000));
+      dispatch(Routes.setRoute("/not-found"));
     }
-  }, [question, push, loading]);
+  }, [question, push, loading, dispatch]);
 
   if (loading) {
     return <h1 className="loading-text">loading</h1>;
@@ -24,13 +29,16 @@ const ViewQuestion = ({ authedUser, question, status, loading }) => {
         <AnsweredQuestions authedUser={authedUser} question={question} />
       </div>
     );
-  } else {
+  }
+
+  if (status !== undefined) {
     return (
       <div>
         <AnswerQuestion authedUser={authedUser} question={question} />
       </div>
     );
   }
+  return null;
 };
 
 ViewQuestion.prototype = {
@@ -38,6 +46,7 @@ ViewQuestion.prototype = {
   question: PropTypes.object,
   status: PropTypes.bool,
   loading: PropTypes.bool,
+  dispatch: PropTypes.func,
 };
 
 const mapStateToProps = (
@@ -45,7 +54,7 @@ const mapStateToProps = (
   { match }
 ) => {
   let question;
-
+  let status;
   if (!loading && typeof questions[match.params.question_id] !== "undefined") {
     question = {
       ...questions[match.params.question_id],
@@ -53,9 +62,8 @@ const mapStateToProps = (
         ...users[questions[match.params.question_id].author],
       },
     };
+    status = questionStatus(question, authedUser?.id);
   }
-  const status = questionStatus(question, authedUser?.id);
-
   return {
     authedUser,
     question,
