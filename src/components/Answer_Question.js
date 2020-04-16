@@ -19,6 +19,7 @@ const AnswerQuestion = ({ question, authedUser, dispatch }) => {
       })
     );
   };
+  console.log(question);
 
   return (
     <div key={question.id}>
