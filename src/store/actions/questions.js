@@ -38,7 +38,10 @@ export class Questions {
         })
         .catch(() => {
           dispatch(
-            Alerts.handleAlerts("Unable to add question, please try again.")
+            Alerts.handleAlerts(
+              "Unable to add question, please try again.",
+              3000
+            )
           );
         });
     };
@@ -53,7 +56,7 @@ export class Questions {
         dispatch(Users.setUsers(users));
       } catch (error) {
         dispatch(
-          Alerts.handleAlerts("Unable to add question, please try again.")
+          Alerts.handleAlerts("Unable to add question, please try again.", 3000)
         );
       }
     };

@@ -12,12 +12,12 @@ export class Alerts {
     msg: "",
   });
 
-  static handleAlerts = (msg) => {
+  static handleAlerts = (msg, time) => {
     return (dispatch) => {
       dispatch(Alerts.setAlert(msg));
       setTimeout(() => {
         dispatch(Alerts.clearAlert());
-      }, 3000);
+      }, time);
     };
   };
 }

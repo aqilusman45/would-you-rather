@@ -44,7 +44,7 @@ const SignInFrom = ({ users, dispatch, history }) => {
   const formSubmit = (e) => {
     e.preventDefault();
     if (user.id === undefined) {
-      dispatch(Alerts.handleAlerts("Please select user to continue."));
+      dispatch(Alerts.handleAlerts("Please select user to continue.", 3000));
     } else {
       dispatch(AuthedUser.handleAuthedUserSetup(user));
       history.push("/");
