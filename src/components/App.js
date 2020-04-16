@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Loading } from "../store/actions/loading";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { Login } from "./Log_in";
-import NotFound from "./Not_Found";
+import PollNotFound from "./Poll_Not_Found";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import withAuthentication from "../utils/authentication";
@@ -16,6 +16,7 @@ import LeaderBoard from "./Leaderboard";
 import Questions from "./Questions";
 import NavBar from "./NavBar";
 import { Alerts } from "../store/actions/alerts";
+import NotFound from "./Not_Found";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -47,7 +48,7 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
           dispatch(Loading.dataReceived(users, questions));
         } catch (error) {
           dispatch(
-            Alerts.handleAlerts("Something went wrong, please try again.")
+            Alerts.handleAlerts("Something went wrong, please try again.", 3000)
           );
         }
       };
@@ -65,7 +66,7 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
         </div>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route exact path={"/questions"} component={Questions} />
+          <Route exact path={`/questions`} component={Questions} />
           <Route exact path={`/add`} component={NewQuestion} />
           <Route exact path={`/leaderboard`} component={LeaderBoard} />
           <Route
@@ -73,6 +74,7 @@ function App({ dispatch, alerts, users, questions, authedUser }) {
             path={`/questions/:question_id`}
             component={ViewQuestion}
           />
+          <Route path="/not-found" component={PollNotFound} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
