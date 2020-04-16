@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import QuestionsListItem from "./Questions_List_Item";
-
+import selectedQuestions from "../store/selectors/questions_list_selector";
 const QuestionsList = ({ questionsList }) => {
   return (
     <div id="questions">
@@ -25,20 +25,8 @@ QuestionsList.prototype = {
   questionsList: PropTypes.array,
 };
 
-const mapStateToProps = ({ questions, users }, { questionsToShow }) => {
-  const questionsList = questionsToShow
-    .map((id) => {
-      return {
-        ...questions[id],
-        author: {
-          ...users[questions[id].author],
-        },
-      };
-    })
-    .sort((a, b) => b.timestamp - a.timestamp);
-  return {
-    questionsList,
-  };
-};
+const mapStateToProps = (state, props) => ({
+  questionsList: selectedQuestions(state, props),
+});
 
 export default connect(mapStateToProps)(QuestionsList);
